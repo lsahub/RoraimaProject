@@ -1,9 +1,12 @@
 import React from 'react';
+import ResumeVisiibility from 'containers/resumeVisibility'
+const Fragment = React.Fragment;
 
 const Resume = () => {
-  return (
-    <React.Fragment>
+  
 
+  return (
+    <Fragment>
           <form>
             <div className="card">
               <div className="card-body">
@@ -34,23 +37,15 @@ const Resume = () => {
                     </div>
                   </div>
                   <div>
-
-                  <div className="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="customRadio1">Toggle this custom radio</label>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="customRadio2">Or toggle this other custom radio</label>
-                      </div>
-                    </div>
+                      <ResumeVisiibility />
+                  </div>
                 <button type="button" className="btn btn-lg btn-outline-primary">Сохранить</button>
               </div>
             </div>
 
 
           </form>
-    </React.Fragment>
+    </Fragment>
 
 
   );

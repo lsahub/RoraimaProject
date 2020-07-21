@@ -21,5 +21,17 @@ namespace RoraimaProject.Config
 				return _configuration.GetConnectionString("RoraimaDBConnection");
 			}
 		}
+
+		/// <summary>
+		/// Если указан домен, то с него будет доступен cors
+		/// </summary>
+		public string CorsPolicy
+		{
+			get
+			{
+				return _configuration.GetValue<string>("CorsPolicy");
+			}
+		}
+
 	}
 }

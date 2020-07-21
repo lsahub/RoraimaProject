@@ -22,6 +22,19 @@ namespace RoraimaProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (!string.IsNullOrWhiteSpace(Conf.CorsPolicy))
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder
+                        .WithOrigins(Conf.CorsPolicy)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+                });
+            }
+
             // add logging
             services.AddSingleton(
                 new LoggerFactory().AddFile(
@@ -44,13 +57,15 @@ namespace RoraimaProject
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            if (!string.IsNullOrWhiteSpace(Conf.CorsPolicy))
+                app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

@@ -12,9 +12,8 @@ using RoraimaProject.Responce;
 
 namespace RoraimaProject.Controllers
 {
-    /// <summary>
-    /// Helper 
-    /// </summary>
+    [Route("api/[controller]")]
+    [ApiController]
     public class ResumeController : ControllerBase
     {
         ILogger<ResumeController> Logger = null;
@@ -23,6 +22,7 @@ namespace RoraimaProject.Controllers
             Logger = _logger;
         }
 
+        [HttpPost]
         [Produces("application/json")]
         public JsonResult SaveResume(ResumeModel resume)
         {
