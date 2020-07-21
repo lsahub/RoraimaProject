@@ -7,7 +7,11 @@ namespace RoraimaProject.Responce
 {
     public class ServiceResponce
     {
-        public string Error { get; set; } = "Something went wrong";
+        public static string GetDefaultError()
+        {
+            return "Something went wrong";
+        }
+        public string Error { get; set; }
         public string Code { get; set; }
         public object Payload { get; set; }
     }

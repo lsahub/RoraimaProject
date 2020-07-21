@@ -34,7 +34,7 @@ namespace RoraimaProject.Models
         /// </summary>
         public string MiddleName { get; set; }
 
-        List<ResumeExperienceModel> ResumeExperienceList { get; set; }
+        public List<ResumeExperienceModel> ResumeExperienceList { get; set; } = new List<ResumeExperienceModel>();
 
         public void Load(DataRow row, DataRow[] rowsResumeExperience) 
         {
@@ -98,6 +98,7 @@ namespace RoraimaProject.Models
             {
                 foreach (var resumeExperience in ResumeExperienceList)
                 {
+                    resumeExperience.ResumeId = ResumeId.Value;
                     resumeExperience.Save(transaction);
                 }
             }
