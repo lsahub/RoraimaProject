@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RoraimaProject.Models
 {
-    public class ResumeModel
+    public class ResumeModel: SearchableModel
     {
         /// <summary>
         /// Identity Increment primary key
@@ -87,8 +87,7 @@ namespace RoraimaProject.Models
                 { "MiddleName", MiddleName }
             }, transaction);
 
-            if (dt.Rows.Count > 0)
-                ResumeId = (int)dt.Rows[0]["ResumeId"];
+            ResumeId = (int)dt.Rows[0]["ResumeId"];
         }
 
         public void Save(SqlTransaction transaction)
@@ -102,7 +101,69 @@ namespace RoraimaProject.Models
                     resumeExperience.Save(transaction);
                 }
             }
+            SaveSearchIndex(transaction);
         }
 
+        public override void SaveSearchIndex(SqlTransaction transaction)
+        {
+            (new SearchIndexModel()
+            {
+                ObjectId = ResumeId.Value,
+                ObjectName = "ResumeModel",
+                FieldName = "Желаемая должность",
+                FieldValue = ResumeTitle
+            })
+            .Delete(transaction)
+            .Save(transaction);
+
+            (new SearchIndexModel()
+            {
+                ObjectId = ResumeId.Value,
+                ObjectName = "ResumeModel",
+                FieldName = "Фамилия",
+                FieldValue = LastName
+            })
+            .Delete(transaction)
+            .Save(transaction);
+
+            (new SearchIndexModel()
+            {
+                ObjectId = ResumeId.Value,
+                ObjectName = "ResumeModel",
+                FieldName = "Имя",
+                FieldValue = FirstName
+            })
+            .Delete(transaction)
+            .Save(transaction);
+
+            (new SearchIndexModel()
+            {
+                ObjectId = ResumeId.Value,
+                ObjectName = "ResumeModel",
+                FieldName = "Отчество",
+                FieldValue = MiddleName
+            })
+            .Delete(transaction)
+            .Save(transaction);
+
+            var resumeExperience = "";
+            foreach (var experience in ResumeExperienceList)
+            {
+                resumeExperience += experience.PlaceOfWork + Environment.NewLine;
+                resumeExperience += experience.Position + Environment.NewLine;
+                resumeExperience += experience.Description + Environment.NewLine;                
+            }
+
+            (new SearchIndexModel()
+            {
+                ObjectId = ResumeId.Value,
+                ObjectName = "ResumeModel",
+                FieldName = "Опыт работы",
+                FieldValue = resumeExperience
+            })
+            .Delete(transaction)
+            .Save(transaction);
+
+        } 
     }
 }
