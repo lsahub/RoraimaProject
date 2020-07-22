@@ -1,10 +1,13 @@
-﻿//#region initialState
-const initialState = {
+﻿const initialState = {
+    //список возможной видимости резюме
     resumeVisibility: {
         list: []
+    },
+    //сохраненное резюме
+    savedResume : {
+        resume: {}
     }
 };
-//#endregion initialState
 
 export default (state = initialState, { type, payload }) => {
     let res = null;
@@ -21,7 +24,22 @@ export default (state = initialState, { type, payload }) => {
             {
                 res = Object.assign({}, state);
                 res.resumeVisibility.list = [];
-                res.resumeVisibility.ex = payload.payload;
+                res.ex = payload;
+                return res;
+            }
+        //#endregion
+        //#region SAVE_RESUME_SUCCESS
+        case 'SAVE_RESUME_SUCCESS':
+            {
+                res = Object.assign({}, state);
+                res.savedResume.resume = payload.payload;
+                return res;
+            }
+        case 'SAVE_RESUME_FAILURE':
+            {
+                res = Object.assign({}, state);
+                res.savedResume.resume = {};
+                res.ex = payload;
                 return res;
             }
         //#endregion

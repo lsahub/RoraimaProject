@@ -26,7 +26,7 @@ namespace RoraimaProjectTests
             SaveResume(resumeLogger, out resumeToSave, out serviceResponce);
             ServiceResponceTest(serviceResponce);
 
-            var resumeId = (serviceResponce.Payload as int?);
+            var resumeId = (serviceResponce.Payload as ResumeModel).ResumeId;
             var resumeFromDb = ResumeModel.Load(resumeId);
 
             ResumeFromDbTest(resumeToSave, resumeFromDb);
@@ -39,8 +39,8 @@ namespace RoraimaProjectTests
         private static void ServiceResponceTest(ServiceResponce serviceResponce)
         {
             Assert.AreEqual(serviceResponce.Code, "200");
-            Assert.AreEqual(serviceResponce.Payload is int, true);
-            Assert.AreEqual((serviceResponce.Payload as int?) > 0, true);
+            Assert.AreEqual(serviceResponce.Payload is ResumeModel, true);
+            Assert.AreEqual(((serviceResponce.Payload as ResumeModel).ResumeId as int?) > 0, true);
         }
 
         private static void SaveResume(ILogger<ResumeController> resumeLogger, out ResumeModel resumeToSave, out ServiceResponce serviceResponce)
@@ -74,6 +74,7 @@ namespace RoraimaProjectTests
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[0].Description == resumeToSave.ResumeExperienceList[0].Description, true);
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[0].IsUntilNow == resumeToSave.ResumeExperienceList[0].IsUntilNow, true);
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[0].Position == resumeToSave.ResumeExperienceList[0].Position, true);
+            Assert.AreEqual(resumeFromDb.ResumeExperienceList[0].PlaceOfWork == resumeToSave.ResumeExperienceList[0].PlaceOfWork, true);
         }
 
         private static void ResumeExperience1Test(ResumeModel resumeToSave, ResumeModel resumeFromDb)
@@ -86,6 +87,7 @@ namespace RoraimaProjectTests
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[1].Description == resumeToSave.ResumeExperienceList[1].Description, true);
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[1].IsUntilNow == resumeToSave.ResumeExperienceList[1].IsUntilNow, true);
             Assert.AreEqual(resumeFromDb.ResumeExperienceList[1].Position == resumeToSave.ResumeExperienceList[1].Position, true);
+            Assert.AreEqual(resumeFromDb.ResumeExperienceList[1].PlaceOfWork == resumeToSave.ResumeExperienceList[1].PlaceOfWork, true);
         }
 
         private static ResumeModel GetResume()
@@ -108,14 +110,16 @@ namespace RoraimaProjectTests
                         DateStart = date.AddYears(-3),
                         DateEnd = date.AddYears(-2),
                         Position = "React JS developer",
-                        Description = "Description"
+                        Description = "Description",
+                        PlaceOfWork = "PlaceOfWork"
                     },
                     new ResumeExperienceModel()
                     {
                         DateStart = date.AddYears(-2),
                         IsUntilNow = true,
                         Position = "FullStack developer",
-                        Description = "Description"
+                        Description = "Description",
+                        PlaceOfWork = "PlaceOfWork"
                     },
                 }
             };

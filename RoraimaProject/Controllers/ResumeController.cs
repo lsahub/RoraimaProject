@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -14,7 +15,7 @@ namespace RoraimaProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResumeController : ControllerBase
+    public class ResumeController : BaseController
     {
         ILogger<ResumeController> Logger = null;
         public ResumeController(ILogger<ResumeController> _logger)
@@ -23,6 +24,7 @@ namespace RoraimaProject.Controllers
         }
 
         [HttpPost]
+        [EnableCors("CorsPolicy")]
         [Produces("application/json")]
         public JsonResult SaveResume(ResumeModel resume)
         {
@@ -35,39 +37,17 @@ namespace RoraimaProject.Controllers
                     transaction.Commit();
                 }
 
-                return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = resume.ResumeId });
+                return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = resume });
             }
             catch (Exception e)
             {
-                var saved = SaveToLog(resume, e);
+                var saved = SaveToLog<ResumeModel>(resume, e, Logger);
                 return new JsonResult(new ServiceResponce()
                 {
                     Code = "E11191861A26",
                     Error = ServiceResponce.GetDefaultError(),
                     Payload = saved
                 });
-            }
-        }
-
-        private bool SaveToLog(ResumeModel resume, Exception e)
-        {
-            try
-            {
-                var fields = new Dictionary<string, object>();
-                if (resume != null)
-                {
-                    fields = resume.GetType()
-                         .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                              .ToDictionary(prop => prop.Name, prop => prop.GetValue(resume, null));
-                }
-                string jsonFields = JsonConvert.SerializeObject(fields);
-
-                jsonFields = LogHelper<ResumeController>.SaveToLog(e, jsonFields, "SaveResumeError", Logger);
-                return true;
-            }
-            catch 
-            {
-                return false;
             }
         }
 

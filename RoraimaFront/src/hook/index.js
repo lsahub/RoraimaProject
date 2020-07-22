@@ -1,6 +1,8 @@
 import  {useEffect} from 'react';
-export const useFetching = someFetchActionCreator => {
+export const useFetching = (someFetchActionCreator, params, callback) => {
     useEffect( () => {
-      someFetchActionCreator();
+      someFetchActionCreator(params).then(()=>{
+        callback && callback();
+      });
     }, [])
   } 

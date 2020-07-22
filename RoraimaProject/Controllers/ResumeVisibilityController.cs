@@ -8,7 +8,7 @@ namespace RoraimaProject.Controllers
 {
     [Route("api/[controller]/list")]
     [ApiController]
-    public class ResumeVisibilityController : ControllerBase
+    public class ResumeVisibilityController : BaseController
     {
         [HttpGet]
         [EnableCors("CorsPolicy")]

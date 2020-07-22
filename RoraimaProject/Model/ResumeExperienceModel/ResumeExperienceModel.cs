@@ -10,13 +10,14 @@ namespace RoraimaProject.Models
 {
     public class ResumeExperienceModel
     {
-        public int? ResumeExperienceId;
-        public int ResumeId;
-        public DateTime DateStart;
-        public DateTime? DateEnd;
-        public bool IsUntilNow;
-        public string Position;
-        public string Description;
+        public int? ResumeExperienceId { get; set; }
+        public int ResumeId { get; set; }
+        public DateTime DateStart { get; set; }
+        public DateTime? DateEnd { get; set; }
+        public bool IsUntilNow { get; set; }
+        public string PlaceOfWork { get; set; }
+        public string Position { get; set; }
+        public string Description { get; set; }
 
         public void Load(DataRow row)
         {
@@ -27,6 +28,7 @@ namespace RoraimaProject.Models
             IsUntilNow = (bool)row["IsUntilNow"];
             Position = row["Position"] as string;
             Description = row["Description"] as string;
+            PlaceOfWork = row["PlaceOfWork"] as string;
         }
 
         public static ResumeExperienceModel Load(int? resumeExperienceId)
@@ -54,6 +56,7 @@ namespace RoraimaProject.Models
                 { "DateStart", DateStart },
                 { "DateEnd", DateEnd },
                 { "IsUntilNow", IsUntilNow },
+                { "PlaceOfWork", PlaceOfWork },
                 { "Position", Position },
                 { "Description", Description }
             }, transaction);
