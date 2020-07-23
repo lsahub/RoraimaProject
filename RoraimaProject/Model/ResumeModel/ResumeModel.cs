@@ -1,3 +1,4 @@
+using RoraimaProject.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace RoraimaProject.Models
 {
-    public class ResumeModel: SearchableModel
+    public class ResumeModel: SearchableModel, ISearchResult
     {
         /// <summary>
         /// Identity Increment primary key
@@ -164,6 +165,20 @@ namespace RoraimaProject.Models
             .Delete(transaction)
             .Save(transaction);
 
-        } 
+        }
+
+        public string GetShortTitle()
+        {
+            return ResumeTitle;
+        }
+
+        public string GetShortText()
+        {
+            if (ResumeExperienceList.Count == 0)
+                return null;
+
+            var resumeExperienceLast = ResumeExperienceList.Last();
+            return resumeExperienceLast.Description;
+        }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using RoraimaProject.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,6 +54,52 @@ namespace RoraimaProject.Models
                 { "FieldName", FieldName },
                 { "FieldValue", FieldValue }
             }, transaction);
+        }
+
+
+        public static List<ISearchResult> Find(string text)
+        {
+            var res = new List<ISearchResult>();
+
+            var dt = DataAccess.GetDataTable("spuSearchIndexFind", new Hashtable()
+            {
+                { "text", text }
+            });
+
+            foreach (DataRow row in dt.Rows)
+            {
+                var searchIndexModel = new SearchIndexModel();
+                searchIndexModel.Load(row);
+                var searchResult = GetSearchResult(searchIndexModel);
+                if (searchResult != null)
+                    res.Add(searchResult);
+            }
+
+            return res;
+        }
+
+        private void Load(DataRow row)
+        {
+            ObjectId = (int)row["ObjectId"];
+            ObjectName = row["ObjectName"] as string;
+            FieldName = row["FieldName"] as string;
+            FieldValue = row["FieldValue"] as string;
+        }
+
+        private static ISearchResult GetSearchResult(SearchIndexModel searchIndexModel)
+        {
+            switch (searchIndexModel.ObjectName)
+            {
+                case "ResumeModel":
+                    {
+                        var resume = ResumeModel.Load(searchIndexModel.ObjectId);
+                        if (!resume.ResumeId.HasValue)
+                            return null;
+                        return resume;
+                    }
+                default:
+                    return null;
+            }
         }
 
     }

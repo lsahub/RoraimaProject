@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React from 'react';
 import { fetchResumeVisibilityList } from 'actions/resumeVisibility'
-import { useSelector, useDispatch, connect } from 'react-redux'
+import { useSelector,  connect } from 'react-redux'
 import { useFetching } from 'hook';
 
 
@@ -14,7 +14,7 @@ const ResumeVisiibility = (props) => {
     return (
         <Fragment>
             {resumeVisiibilityList.map((row, index) => (
-                <div className="custom-control custom-radio">                        
+                <div key={`resumeVisiibilityList${row.resumeVisibilityId}`}  className="custom-control custom-radio">                        
                     <input 
                         onChange={()=>{props.onChange(row.resumeVisibilityId)}} 
                         type="radio" 

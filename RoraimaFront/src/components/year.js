@@ -12,7 +12,7 @@ const SelectYear = (props) => {
     >
         {
             years.map((y,i)=>(
-                <option value={y}>{y}</option>
+                <option key={`years_option_${y}`} value={y}>{y}</option>
             ))
         }
     </select> 

@@ -25,7 +25,6 @@ const ResumeExperience = (props) => {
                         id={`placeOfWork${props.index}`}
                         placeholder="Место работы" 
                         maxLength="200" 
-                        required
                     />
                 </div>
             </div>
@@ -44,7 +43,6 @@ const ResumeExperience = (props) => {
                         id={`position${props.index}`}
                         placeholder="Должность" 
                         maxLength="200" 
-                        required
                     />
                 </div>
             </div>
@@ -142,8 +140,7 @@ const ResumeExperience = (props) => {
                         className="form-control" 
                         id={`description${props.index}`}
                         placeholder="Обязанности" 
-                        maxLength="200" 
-                        required
+                        maxLength="4000" 
                     />
                 </div>
             </div>

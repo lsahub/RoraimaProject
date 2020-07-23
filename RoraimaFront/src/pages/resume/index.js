@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ResumeVisiibility from 'containers/resumeVisibility';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import { useFetching } from 'hook';
 import { saveResume } from 'actions/resume';
 import ResumeExperience from 'containers/resumeExperience';
+import resume from 'reducers/resume';
+import {smoothScroll} from 'selectors'
 const Fragment = React.Fragment;
+ 
+
 
 const Resume = (props) => {
   const [isSaveResume, setIsSaveResume] = useState(false);
@@ -27,16 +31,36 @@ const Resume = (props) => {
   const [placeOfWorkList, setPlaceOfWorkList] = useState([,]);
   const [descriptionList, setDescriptionList] = useState([,]);
   //#endregion  
-  
-  const lastDayOfMonth = function(y,m){
+
+  //#region 
+ 
+  const lastNameRef = useRef(null)  
+  //#endregion
+
+  const [isValidate, setIsValidate] = useState(false);
+  const [isValidateLastName, setIsValidateLastName] = useState(true);
+  let validate = () =>
+  {
+    if(!lastName)
+    {      
+      setIsValidateLastName(false);
+      setIsValidate(false);
+      smoothScroll(lastNameRef);
+      return;
+    }
+    setIsValidate(true);
+    debugger;
+  }
+  const lastDayOfMonth = (y,m) => {
     return  new Date(y, m +1, 0).getDate();
     }
 
-  useEffect(() => {
-
+  useEffect(() => {    
     if(isSaveResume)
-    {
-      setIsSaveResume(false);
+      validate();
+
+    if(isSaveResume && isValidate)
+    {      
       let resumeExperienceList = [];
       for (let index = 0; index < maxIndexResumeExperience; index++) {
         let dateStartMonth = ('0' + (dateStartMonthList[index]).toString()).slice(-2);
@@ -71,14 +95,17 @@ const Resume = (props) => {
         resumeExperienceList
       });
     }
-  }, [isSaveResume]);
+
+    setIsSaveResume(false);
+
+  }, [isSaveResume, isValidate]);
 
   
 
   return (
     <Fragment>
       <div className="page-resume">
-        <form onSubmit={(event)=>{setIsSaveResume(true); event.preventDefault(); return false;}}>
+ 
           <div className="card">
             <div className="card-body">
               <div className='form-group row'>
@@ -94,7 +121,6 @@ const Resume = (props) => {
                           id="inputTitle" 
                           placeholder="Желаемая должность" 
                           maxLength="500" 
-                          required
                         />
                       </div>
                     </div>
@@ -109,9 +135,13 @@ const Resume = (props) => {
                           id="inputLastName" 
                           placeholder="Фамилия" 
                           maxLength="100" 
-                          required
+                          ref={lastNameRef}
                         />
-                      </div>
+                        {
+                          !isValidateLastName &&
+                          <small id="passwordHelp" className="text-danger">Обязательное поле</small> 
+                        }                      
+                      </div>                      
                     </div>
                     <div className="form-group row">
                       <label htmlFor="inputFirstName" className="col-sm-3 col-form-label">Имя</label>
@@ -123,7 +153,6 @@ const Resume = (props) => {
                           id="inputFirstName" 
                           placeholder="Имя" 
                           maxLength="100" 
-                          required
                         />
                       </div>
                     </div>
@@ -138,7 +167,8 @@ const Resume = (props) => {
                     </div>
                     {
                       [...Array(maxIndexResumeExperience)].map((x, index) => (
-                          <ResumeExperience 
+                          <ResumeExperience
+                            key={`ResumeExperience${index}`}
                             index={index}
                             setDateStartMonth={setDateStartMonth} 
                             setDateEndMonth={setDateEndMonth} 
@@ -161,7 +191,7 @@ const Resume = (props) => {
                             placeOfWorkList={placeOfWorkList}
                             descriptionList={descriptionList}
                             deleteResumeExperience={(i=>{
-                              alert('функция удаления не реализвана')
+                              alert('функция удаления не реализована')
                             })}
                           />
                       ))
@@ -169,13 +199,13 @@ const Resume = (props) => {
                     <div className="resume-experience-add">
                       <button 
                         type="button" 
-                        class="btn btn-link" 
+                        className="btn btn-link" 
                         onClick={()=>{
                           setMaxIndexResumeExperience(maxIndexResumeExperience + 1)
                         }}
                       >Добавить место работы</button>
                     </div>
-                  <button type="submit" className="btn btn-lg btn-outline-primary">Сохранить</button>
+                  <button onClick={(event)=>{setIsSaveResume(true)}} type="button" className="btn btn-lg btn-outline-primary">Сохранить</button>
               
                 </div>
                 <div className="col-sm-4 media-order-1">
@@ -184,7 +214,7 @@ const Resume = (props) => {
               </div>
             </div>
           </div>
-        </form>
+ 
       </div>
     </Fragment>
 

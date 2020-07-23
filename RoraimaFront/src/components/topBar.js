@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Redirect } from 'react-router'
-import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { fetchSearchList } from 'actions/search';
+import { connect } from 'react-redux'
+import SearchPanel from 'containers/searchPanel'
 
 const Topbar = (props) => {
-  const [searchValue, setSearchValue] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [redirectToSearchPage, setRedirectToSearchPage] = useState(false);
 
-  if(redirectToSearchPage)
-  {
-    setRedirectToSearchPage(false);
-    debugger;
-    props.history.push(`/search?text=${searchText}`);
-    //return <Redirect to={`/search?text=${searchText}`} />       
-  }
+  const [showSearch, setShowSearch] = useState(false);
+
 
   return ( 
     <React.Fragment>
@@ -42,31 +34,7 @@ const Topbar = (props) => {
               href="#">Sign up</a>
           </div>
         </div>
-        <div className={`search-panel ${showSearch ? 'show' : ''}`}>
-          <input 
-            value={searchValue} 
-            onChange={e => setSearchValue(e.target.value)} 
-            className='form-control rounded-0'
-            id="searchValue" 
-            placeholder="Поиск" 
-            maxLength="500" 
-            required
-            onKeyPress={event => {
-              if (event.key === 'Enter') {
-                setSearchText(searchValue);
-                setRedirectToSearchPage(true);
-              }
-            }} 
-          />
-          <button 
-            onClick={()=>{
-              setSearchText(searchValue);
-              setRedirectToSearchPage(true);
-            }}
-            type="button" 
-            class="btn btn-primary rounded-0"
-          >Найти</button>
-        </div>
+        <SearchPanel showSearch={showSearch} />
       </header> 
       
     </React.Fragment>
@@ -74,4 +42,11 @@ const Topbar = (props) => {
   );
 };
 
-export default withRouter(Topbar);
+
+
+const mapDispatch = {
+  fetchSearchList
+};
+
+
+export default connect(null, mapDispatch)(Topbar);

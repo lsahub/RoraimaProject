@@ -10,7 +10,7 @@ const Search = (props) => {
       <div 
         className='search-item'
       >
-        <h3>{props.title}</h3>
+        <h4>{props.title}</h4>
         <div>{props.text}</div>
       </div>
     </Fragment>    
