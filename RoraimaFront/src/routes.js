@@ -7,7 +7,7 @@ export default () => {
   return (
     <Switch>
       <Route path="/" component={Resume} exact />
-      <Route path="/articles/:slug" component={Search} exact />
+      <Route path="/search/" component={Search} exact />
     </Switch>
   );
 };

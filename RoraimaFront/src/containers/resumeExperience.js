@@ -12,8 +12,8 @@ const ResumeExperience = (props) => {
         <div className="resume-experience">
         
             <div className="form-group row">
-                <label htmlFor={`placeOfWork${props.index}`} className="col-sm-2 col-form-label">Место работы</label>
-                <div className="col-sm-10">
+                <label htmlFor={`placeOfWork${props.index}`} className="col-sm-3 col-form-label">Место работы</label>
+                <div className="col-sm-9">
                     <input 
                         value={props.placeOfWorkList[props.index]}
                         onChange={e=>{
@@ -31,8 +31,8 @@ const ResumeExperience = (props) => {
             </div>
 
             <div className="form-group row">
-                <label htmlFor={`position${props.index}`} className="col-sm-2 col-form-label">Должность</label>
-                <div className="col-sm-10">
+                <label htmlFor={`position${props.index}`} className="col-sm-3 col-form-label">Должность</label>
+                <div className="col-sm-9">
                     <input 
                         value={props.positionList[props.index]}
                         onChange={e=>{ 
@@ -50,8 +50,8 @@ const ResumeExperience = (props) => {
             </div>
 
             <div className="form-group row">
-                <label htmlFor="dateStartMonth" className="col-sm-2 col-form-label">Начало работы</label>
-                <div className="col-sm-10">
+                <label htmlFor="dateStartMonth" className="col-sm-3 col-form-label">Начало работы</label>
+                <div className="col-sm-9">
                     <div className="resume-experience-date">
                         <div className="resume-experience-date-month">
                             <SelectMonth 
@@ -77,8 +77,8 @@ const ResumeExperience = (props) => {
                 </div>
             </div>
             <div className="form-group row">
-                <label htmlFor="dateEndMonth" className="col-sm-2 col-form-label">Окончание</label>
-                <div className="col-sm-10">
+                <label htmlFor="dateEndMonth" className="col-sm-3 col-form-label">Окончание</label>
+                <div className="col-sm-9">
                     <div className="form-check">
                     <input 
                         value={props.isUntilTimeList[props.index]}
@@ -128,8 +128,8 @@ const ResumeExperience = (props) => {
             </div>
 
             <div className="form-group row">
-                <label htmlFor={`description${props.index}`} className="col-sm-2 col-form-label">Обязанности</label>
-                <div className="col-sm-10">
+                <label htmlFor={`description${props.index}`} className="col-sm-3 col-form-label">Обязанности</label>
+                <div className="col-sm-9">
                     <textarea 
                         value={props.descriptionList[props.index]}
                         cols="40" 

@@ -77,13 +77,16 @@ const Resume = (props) => {
 
   return (
     <Fragment>
-            <form onSubmit={(event)=>{setIsSaveResume(true); event.preventDefault(); return false;}}>
-              <div className="card">
-                <div className="card-body">
+      <div className="page-resume">
+        <form onSubmit={(event)=>{setIsSaveResume(true); event.preventDefault(); return false;}}>
+          <div className="card">
+            <div className="card-body">
+              <div className='form-group row'>
+                <div className="col-sm-8 media-order-2">
                   <h1 className="card-title pricing-card-title">Липовкин Сергей Александрович</h1>
                     <div className="form-group row">
-                      <label htmlFor="inputTitle" className="col-sm-2 col-form-label">Желаемая должность</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="inputTitle" className="col-sm-3 col-form-label">Желаемая должность</label>
+                      <div className="col-sm-9">
                         <input 
                           value={resumeTitle} 
                           onChange={e => setResumeTitle(e.target.value)} 
@@ -97,8 +100,8 @@ const Resume = (props) => {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputLastName" className="col-sm-2 col-form-label">Фамилия</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="inputLastName" className="col-sm-3 col-form-label">Фамилия</label>
+                      <div className="col-sm-9">
                         <input 
                           value={lastName} 
                           onChange={e => setLastName(e.target.value)}  
@@ -111,8 +114,8 @@ const Resume = (props) => {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputFirstName" className="col-sm-2 col-form-label">Имя</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="inputFirstName" className="col-sm-3 col-form-label">Имя</label>
+                      <div className="col-sm-9">
                         <input 
                           value={firstName} 
                           onChange={e => setFirstName(e.target.value)} 
@@ -125,8 +128,8 @@ const Resume = (props) => {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputMiddleName" className="col-sm-2 col-form-label">Отчество</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="inputMiddleName" className="col-sm-3 col-form-label">Отчество</label>
+                      <div className="col-sm-9">
                         <input value={middleName} onChange={e => setMiddleName(e.target.value)} className="form-control" id="inputMiddleName" placeholder="Отчество" maxLength="100" />
                       </div>
                     </div>
@@ -173,11 +176,16 @@ const Resume = (props) => {
                       >Добавить место работы</button>
                     </div>
                   <button type="submit" className="btn btn-lg btn-outline-primary">Сохранить</button>
+              
+                </div>
+                <div className="col-sm-4 media-order-1">
+                  <a href='https://praktikum.yandex.ru/' target='blank'><img src='/images/ad.png' /></a>                  
                 </div>
               </div>
-
-            </form>
-
+            </div>
+          </div>
+        </form>
+      </div>
     </Fragment>
 
 

@@ -1,3 +1,5 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
 .navbar-brand-logo
 {
     height: 50px;
@@ -43,4 +45,50 @@
         }
     }
 }
+
+.text-menu-link
+{
+    display: flex;
+    align-items: center;    
+    color: $gray-800 !important;
+}
+
+.text-menu-link:hover {
+    color: $blue !important;
+}
+
+.site-header
+{
+    .top-bar
+    {
+        position: relative;
+        z-index: 100;
+        background-color: white;    
+    }
+    .search-panel
+    {
+        display: flex;    
+        max-width: 600px;
+        margin: -40px 0px 10px 0px;
+        transition: 0.3s;
+        opacity: 0;
+        &.show
+        {
+            margin: 20px 0px 5px 0px;
+            opacity: 1;    
+        }
+    }   
+}
+
  
+
+@media only screen and (max-width: 600px) {
+    .media-order-2
+    {
+        order: 2;        
+    }
+    .media-order-1
+    {
+        order: 1;        
+    }
+  } 
