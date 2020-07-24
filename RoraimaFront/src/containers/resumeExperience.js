@@ -1,12 +1,54 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef, useRef, useImperativeHandle} from 'react';
 import SelectMonth from 'components/month';
 import SelectYear from 'components/year';
+import { smoothScroll } from 'selectors'
 const Fragment = React.Fragment;
 
-const ResumeExperience = (props) => {
+const ResumeExperience = forwardRef((props, ref) => {
+    const [isPlaceOfWorkValidate, setIsPlaceOfWorkValidate] = useState(true);
+    const [isPositionValidate, setIsPositionValidate] = useState(true);
+    const [isDescriptionValidate, setIsDescriptionValidate] = useState(true);
+    //#region useRef
+    const placeOfWorkRef = useRef(null);
+    const positionRef = useRef(null);
+    const descriptionRef = useRef(null);
+    //#endregion
+
+    useImperativeHandle(ref, () => ({
+        validateExperience(initIsValidate) {
+            setIsPlaceOfWorkValidate(true);
+            setIsPositionValidate(true);
+            setIsDescriptionValidate(true);
+
+            if(!props.placeOfWorkList[props.index])
+            {
+                setIsPlaceOfWorkValidate(false);
+                if(initIsValidate)
+                    smoothScroll(placeOfWorkRef);
+                initIsValidate = false;
+            }
+
+            if(!props.positionList[props.index])
+            {
+                setIsPositionValidate(false);
+                if(initIsValidate)
+                    smoothScroll(positionRef);
+                initIsValidate = false;
+            }
+
+            if(!props.descriptionList[props.index])
+            {
+                setIsDescriptionValidate(false);
+                if(initIsValidate)
+                    smoothScroll(descriptionRef);
+                initIsValidate = false;
+            }
+
+            return initIsValidate;
+        }
+    }));
 
     const [showEndDate, setShowEndDate] = useState(true);
-    const [resumeTitle, setResumeTitle] = useState("");
     return (
     <Fragment>
         <div className="resume-experience">
@@ -25,7 +67,12 @@ const ResumeExperience = (props) => {
                         id={`placeOfWork${props.index}`}
                         placeholder="Место работы" 
                         maxLength="200" 
+                        ref={placeOfWorkRef}
                     />
+                        {
+                          !isPlaceOfWorkValidate &&
+                          <small className="text-danger">Обязательное поле</small> 
+                        }  
                 </div>
             </div>
 
@@ -43,7 +90,12 @@ const ResumeExperience = (props) => {
                         id={`position${props.index}`}
                         placeholder="Должность" 
                         maxLength="200" 
+                        ref={positionRef}
                     />
+                        {
+                          !isPositionValidate &&
+                          <small className="text-danger">Обязательное поле</small> 
+                        }  
                 </div>
             </div>
 
@@ -141,7 +193,12 @@ const ResumeExperience = (props) => {
                         id={`description${props.index}`}
                         placeholder="Обязанности" 
                         maxLength="4000" 
+                        ref={descriptionRef}
                     />
+                        {
+                          !isDescriptionValidate &&
+                          <small className="text-danger">Обязательное поле</small> 
+                        }  
                 </div>
             </div>
 
@@ -153,6 +210,6 @@ const ResumeExperience = (props) => {
         </div>
     </Fragment>
   );
-};
+});
 
 export default ResumeExperience;

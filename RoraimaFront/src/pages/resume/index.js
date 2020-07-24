@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, createRef } from 'react';
 import ResumeVisiibility from 'containers/resumeVisibility';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import { useFetching } from 'hook';
@@ -32,32 +32,93 @@ const Resume = (props) => {
   const [descriptionList, setDescriptionList] = useState([,]);
   //#endregion  
 
-  //#region 
- 
-  const lastNameRef = useRef(null)  
+  //#region useRef
+  const resumeTitleRef = useRef(null);
+  const lastNameRef = useRef(null);
+  const firstNameRef = useRef(null);
+  const resumeExperienceRefs = [];
   //#endregion
 
-  const [isValidate, setIsValidate] = useState(false);
+  //#region validate
+  const [isValidate, setIsValidate] = useState(false);  
+  const [isValidateResumeTitle, setIsValidateResumeTitle] = useState(true);
   const [isValidateLastName, setIsValidateLastName] = useState(true);
+  const [isValidateFirstName, setIsValidateFirstName] = useState(true);
+  //#endregion
+
+  //#region resetValidate
+  let resetValidate = () =>
+  {
+    setIsValidateResumeTitle(true);
+    setIsValidateLastName(true);
+    setIsValidateFirstName(true);
+  }
+  //#endregion
+
+  //#region validate
   let validate = () =>
   {
+    resetValidate();
+    let isValidate = true;
+    let smoothRef = null;
+    if(!resumeTitle)
+    {
+      setIsValidateResumeTitle(false);
+      setIsValidate(false);
+      if(smoothRef == null)
+        smoothRef = resumeTitleRef;
+      isValidate = false;
+    }
     if(!lastName)
     {      
       setIsValidateLastName(false);
       setIsValidate(false);
-      smoothScroll(lastNameRef);
-      return;
+      if(smoothRef == null)
+        smoothRef = lastNameRef;
+      isValidate = false;
     }
-    setIsValidate(true);
-    debugger;
+
+    if(!firstName)
+    {      
+      setIsValidateFirstName(false);
+      setIsValidate(false);
+      if(smoothRef == null)
+        smoothRef = firstNameRef;
+      isValidate = false;
+    }
+    
+    if(smoothRef != null)
+      smoothScroll(smoothRef);
+
+    if(isValidate)
+      setIsValidate(isValidate);
+
+    return isValidate;
   }
   const lastDayOfMonth = (y,m) => {
     return  new Date(y, m +1, 0).getDate();
-    }
+  }    
+  //#endregion
 
+  //#region validateExperience
+  const validateExperience = (initIsValidate)=> 
+  {
+    resumeExperienceRefs.forEach(ref => {
+      if(!ref.current.validateExperience(initIsValidate))
+      initIsValidate = false;
+    });
+    setIsValidate(initIsValidate);
+    return initIsValidate;
+  }
+  //#endregion
+
+  //#region save
   useEffect(() => {    
     if(isSaveResume)
-      validate();
+    {
+      let initIsValidate = validate();
+      validateExperience(initIsValidate);
+    }
 
     if(isSaveResume && isValidate)
     {      
@@ -83,7 +144,6 @@ const Resume = (props) => {
         let description = descriptionList[index];
         let resumeExperience =  { dateStart,dateEnd,isUntilTime,position,placeOfWork,description };
         resumeExperienceList.push(resumeExperience);
-        debugger;
       }
 
       props.saveResume({
@@ -98,8 +158,8 @@ const Resume = (props) => {
 
     setIsSaveResume(false);
 
-  }, [isSaveResume, isValidate]);
-
+  }, [isSaveResume]);
+  //#endregion 
   
 
   return (
@@ -121,7 +181,12 @@ const Resume = (props) => {
                           id="inputTitle" 
                           placeholder="Желаемая должность" 
                           maxLength="500" 
+                          ref={resumeTitleRef}
                         />
+                        {
+                          !isValidateResumeTitle &&
+                          <small className="text-danger">Обязательное поле</small> 
+                        }  
                       </div>
                     </div>
 
@@ -139,7 +204,7 @@ const Resume = (props) => {
                         />
                         {
                           !isValidateLastName &&
-                          <small id="passwordHelp" className="text-danger">Обязательное поле</small> 
+                          <small className="text-danger">Обязательное поле</small> 
                         }                      
                       </div>                      
                     </div>
@@ -153,7 +218,12 @@ const Resume = (props) => {
                           id="inputFirstName" 
                           placeholder="Имя" 
                           maxLength="100" 
+                          ref={firstNameRef}
                         />
+                        {
+                          !isValidateFirstName &&
+                          <small className="text-danger">Обязательное поле</small> 
+                        }  
                       </div>
                     </div>
                     <div className="form-group row">
@@ -166,35 +236,46 @@ const Resume = (props) => {
                         <ResumeVisiibility value={resumeVisibilityId} onChange={setResumeVisibility} />
                     </div>
                     {
-                      [...Array(maxIndexResumeExperience)].map((x, index) => (
-                          <ResumeExperience
-                            key={`ResumeExperience${index}`}
-                            index={index}
-                            setDateStartMonth={setDateStartMonth} 
-                            setDateEndMonth={setDateEndMonth} 
-                            setDateStartYear={setDateStartYear} 
-                            setDateEndYear={setDateEndYear} 
+                      [...Array(maxIndexResumeExperience)].map((x, index) => {
+                        //#region  при добавлении новых элементов инициализируем их дефолтными значениями
+                        resumeExperienceRefs[index] = createRef();
+                        if(!dateStartYearList[index])
+                          dateStartYearList[index] = 2020;
+                        if(!dateEndYearList[index])
+                          dateEndYearList[index] = 2020;
+                        //#endregion 
+                        return (
+                          <div>
+                            <ResumeExperience                            
+                              key={`ResumeExperience${index}`}
+                              index={index}                            
+                              ref={resumeExperienceRefs[index]}
+                              setDateStartMonth={setDateStartMonth} 
+                              setDateEndMonth={setDateEndMonth} 
+                              setDateStartYear={setDateStartYear} 
+                              setDateEndYear={setDateEndYear} 
 
-                            setIsUntilTimeList={setIsUntilTimeList}
-                            setPositionList={setPositionList}
-                            setPlaceOfWorkList={setPlaceOfWorkList}
-                            setDescriptionList={setDescriptionList}
-                            
-                            dateStartMonthList={dateStartMonthList}
-                            dateStartYearList={dateStartYearList}
+                              setIsUntilTimeList={setIsUntilTimeList}
+                              setPositionList={setPositionList}
+                              setPlaceOfWorkList={setPlaceOfWorkList}
+                              setDescriptionList={setDescriptionList}
+                              
+                              dateStartMonthList={dateStartMonthList}
+                              dateStartYearList={dateStartYearList}
 
-                            dateEndMonthList={dateEndMonthList} 
-                            dateEndYearList={dateEndYearList} 
+                              dateEndMonthList={dateEndMonthList} 
+                              dateEndYearList={dateEndYearList} 
 
-                            isUntilTimeList={isUntilTimeList} 
-                            positionList={positionList}
-                            placeOfWorkList={placeOfWorkList}
-                            descriptionList={descriptionList}
-                            deleteResumeExperience={(i=>{
-                              alert('функция удаления не реализована')
-                            })}
-                          />
-                      ))
+                              isUntilTimeList={isUntilTimeList} 
+                              positionList={positionList}
+                              placeOfWorkList={placeOfWorkList}
+                              descriptionList={descriptionList}
+                              deleteResumeExperience={(i=>{
+                                alert('функция удаления не реализована')
+                              })}
+                            />
+                          </div>
+                      )})
                     }
                     <div className="resume-experience-add">
                       <button 
