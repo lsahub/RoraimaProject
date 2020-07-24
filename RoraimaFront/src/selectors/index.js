@@ -9,7 +9,7 @@ export const getOffsetTop = element => {
 
 
 export const smoothScroll = (ref) => {
-    let top = getOffsetTop(ref.current) - 20;
+    let top = getOffsetTop(ref.current) - 25;
     window.scrollTo({ behavior: 'smooth', top:  top})  
 }
 
