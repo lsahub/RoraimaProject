@@ -10,7 +10,7 @@ namespace RoraimaProject
     {
         public static readonly HttpClient httpClient = new HttpClient();
 
-        private static string ConnectionString = "Server=localhost,1433;Database=RoraimaDB;User Id=SA;Password=StrongPassword@123;";
+        public static string ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
         public static SqlConnection CreateConnection()
         {

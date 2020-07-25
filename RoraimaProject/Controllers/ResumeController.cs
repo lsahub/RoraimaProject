@@ -46,11 +46,9 @@ namespace RoraimaProject.Controllers
                 {
                     Code = "E11191861A26",
                     Error = ServiceResponce.GetDefaultError(),
-                    Payload = saved
+                    Payload = null
                 });
             }
         }
-
-
     }
 }

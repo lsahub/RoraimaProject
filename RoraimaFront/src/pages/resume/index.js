@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import ResumeVisiibility from 'containers/resumeVisibility';
-import { useSelector, useDispatch, connect } from 'react-redux';
-import { useFetching } from 'hook';
+import { connect } from 'react-redux';
 import { saveResume } from 'actions/resume';
 import ResumeExperience from 'containers/resumeExperience';
-import resume from 'reducers/resume';
 import {smoothScroll} from 'selectors'
+import Advertising from 'containers/advertising';
+import { withRouter } from 'react-router-dom';
 const Fragment = React.Fragment;
  
-
-
 const Resume = (props) => {
   const [isSaveResume, setIsSaveResume] = useState(false);
   const [resumeTitle, setResumeTitle] = useState("");
@@ -40,7 +38,6 @@ const Resume = (props) => {
   //#endregion
 
   //#region validate
-  const [isValidate, setIsValidate] = useState(false);  
   const [isValidateResumeTitle, setIsValidateResumeTitle] = useState(true);
   const [isValidateLastName, setIsValidateLastName] = useState(true);
   const [isValidateFirstName, setIsValidateFirstName] = useState(true);
@@ -59,41 +56,35 @@ const Resume = (props) => {
   let validate = () =>
   {
     resetValidate();
-    let isValidate = true;
+    let isValid = true;
     let smoothRef = null;
     if(!resumeTitle)
     {
       setIsValidateResumeTitle(false);
-      setIsValidate(false);
       if(smoothRef == null)
         smoothRef = resumeTitleRef;
-      isValidate = false;
+      isValid = false;
     }
     if(!lastName)
     {      
       setIsValidateLastName(false);
-      setIsValidate(false);
       if(smoothRef == null)
         smoothRef = lastNameRef;
-      isValidate = false;
+      isValid = false;
     }
 
     if(!firstName)
     {      
       setIsValidateFirstName(false);
-      setIsValidate(false);
       if(smoothRef == null)
         smoothRef = firstNameRef;
-      isValidate = false;
+      isValid = false;
     }
     
     if(smoothRef != null)
       smoothScroll(smoothRef);
 
-    if(isValidate)
-      setIsValidate(isValidate);
-
-    return isValidate;
+    return isValid;
   }
   const lastDayOfMonth = (y,m) => {
     return  new Date(y, m +1, 0).getDate();
@@ -101,26 +92,26 @@ const Resume = (props) => {
   //#endregion
 
   //#region validateExperience
-  const validateExperience = (initIsValidate)=> 
+  const validateExperience = (isValid)=> 
   {
     resumeExperienceRefs.forEach(ref => {
-      if(!ref.current.validateExperience(initIsValidate))
-      initIsValidate = false;
+      if(!ref.current.validateExperience(isValid))
+      isValid = false;
     });
-    setIsValidate(initIsValidate);
-    return initIsValidate;
+    return isValid;
   }
   //#endregion
 
   //#region save
-  useEffect(() => {    
+  useEffect(() => {   
+    let isValid = false; 
     if(isSaveResume)
     {
-      let initIsValidate = validate();
-      validateExperience(initIsValidate);
+      isValid = validate();
+      isValid = validateExperience(isValid);
     }
 
-    if(isSaveResume && isValidate)
+    if(isSaveResume && isValid)
     {      
       let resumeExperienceList = [];
       for (let index = 0; index < maxIndexResumeExperience; index++) {
@@ -153,6 +144,8 @@ const Resume = (props) => {
         middleName,
         resumeVisibilityId,
         resumeExperienceList
+      }).then(()=>{
+        props.history.push(`/resumeSent`);
       });
     }
 
@@ -160,17 +153,15 @@ const Resume = (props) => {
 
   }, [isSaveResume]);
   //#endregion 
-  
 
   return (
     <Fragment>
       <div className="page-resume">
- 
           <div className="card">
             <div className="card-body">
               <div className='form-group row'>
                 <div className="col-sm-8 media-order-2">
-                  <h1 className="card-title pricing-card-title">Липовкин Сергей Александрович</h1>
+                  <h1 className="card-title pricing-card-title">Ваше резюме</h1>
                     <div className="form-group row">
                       <label htmlFor="inputTitle" className="col-sm-3 col-form-label">Желаемая должность</label>
                       <div className="col-sm-9">
@@ -245,7 +236,7 @@ const Resume = (props) => {
                           dateEndYearList[index] = 2020;
                         //#endregion 
                         return (
-                          <div>
+                          <div key={`DivResumeExperience${index}`}>
                             <ResumeExperience                            
                               key={`ResumeExperience${index}`}
                               index={index}                            
@@ -289,12 +280,10 @@ const Resume = (props) => {
                   <button onClick={(event)=>{setIsSaveResume(true)}} type="button" className="btn btn-lg btn-outline-primary">Сохранить</button>
               
                 </div>
-                <div className="col-sm-4 media-order-1">
-                  <a href='https://praktikum.yandex.ru/' target='blank'><img src='/images/ad.png' /></a>                  
-                </div>
+                <Advertising />
               </div>
             </div>
-          </div>
+          </div> 
  
       </div>
     </Fragment>
@@ -307,4 +296,4 @@ const mapDispatch = {
   saveResume
 };
 
-export default connect(null, mapDispatch)(Resume);
+export default connect(null, mapDispatch)(withRouter(Resume));
