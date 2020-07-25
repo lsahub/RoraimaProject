@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using RoraimaProject.Helper;
-using RoraimaProject.Models;
-using RoraimaProject.Responce; 
+using RoraimaLibrary;
+using RoraimaLibrary.Models;
+using RoraimaProject.Responce;
+using System;
 
 namespace RoraimaProject.Controllers
 {

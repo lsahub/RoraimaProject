@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoraimaProject", "RoraimaProject\RoraimaProject.csproj", "{BF96ABAA-17AD-4EE2-98B8-3EE6B32243B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoraimaProject", "RoraimaProject\RoraimaProject.csproj", "{BF96ABAA-17AD-4EE2-98B8-3EE6B32243B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoraimaProjectTests", "RoraimaProjectTests\RoraimaProjectTests.csproj", "{A4422E13-0E82-4DB4-A52F-3E5F470BECD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoraimaProjectTests", "RoraimaProjectTests\RoraimaProjectTests.csproj", "{A4422E13-0E82-4DB4-A52F-3E5F470BECD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoraimaLibrary", "RoraimaLibrary\RoraimaLibrary.csproj", "{ADC033D3-AA8E-4FD7-95DB-C64108A0A08F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A4422E13-0E82-4DB4-A52F-3E5F470BECD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4422E13-0E82-4DB4-A52F-3E5F470BECD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4422E13-0E82-4DB4-A52F-3E5F470BECD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC033D3-AA8E-4FD7-95DB-C64108A0A08F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC033D3-AA8E-4FD7-95DB-C64108A0A08F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC033D3-AA8E-4FD7-95DB-C64108A0A08F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC033D3-AA8E-4FD7-95DB-C64108A0A08F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

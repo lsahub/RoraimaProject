@@ -14,14 +14,6 @@ namespace RoraimaProject.Config
 			LoggerConfiguration = new LoggerConfiguration(configuration);
 		}
 
-		public string RoraimaDBConnectionString
-		{
-			get
-			{
-				return _configuration.GetConnectionString("RoraimaDBConnection");
-			}
-		}
-
 		/// <summary>
 		/// Если указан домен, то с него будет доступен cors
 		/// </summary>
