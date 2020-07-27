@@ -1,4 +1,3 @@
-using RoraimaLibrary.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 
 namespace RoraimaLibrary.Models
 {
-    public class ResumeModel: SearchableModel, ISearchResult
+    public class ResumeModel: SearchableModel
     {
         /// <summary>
         /// Identity Increment primary key
@@ -107,78 +106,7 @@ namespace RoraimaLibrary.Models
 
         public override void SaveSearchIndex(SqlTransaction transaction)
         {
-            (new SearchIndexModel()
-            {
-                ObjectId = ResumeId.Value,
-                ObjectName = "ResumeModel",
-                FieldName = "Желаемая должность",
-                FieldValue = ResumeTitle
-            })
-            .Delete(transaction)
-            .Save(transaction);
-
-            (new SearchIndexModel()
-            {
-                ObjectId = ResumeId.Value,
-                ObjectName = "ResumeModel",
-                FieldName = "Фамилия",
-                FieldValue = LastName
-            })
-            .Delete(transaction)
-            .Save(transaction);
-
-            (new SearchIndexModel()
-            {
-                ObjectId = ResumeId.Value,
-                ObjectName = "ResumeModel",
-                FieldName = "Имя",
-                FieldValue = FirstName
-            })
-            .Delete(transaction)
-            .Save(transaction);
-
-            (new SearchIndexModel()
-            {
-                ObjectId = ResumeId.Value,
-                ObjectName = "ResumeModel",
-                FieldName = "Отчество",
-                FieldValue = MiddleName
-            })
-            .Delete(transaction)
-            .Save(transaction);
-
-            var resumeExperience = "";
-            foreach (var experience in ResumeExperienceList)
-            {
-                resumeExperience += experience.PlaceOfWork + Environment.NewLine;
-                resumeExperience += experience.Position + Environment.NewLine;
-                resumeExperience += experience.Description + Environment.NewLine;                
-            }
-
-            (new SearchIndexModel()
-            {
-                ObjectId = ResumeId.Value,
-                ObjectName = "ResumeModel",
-                FieldName = "Опыт работы",
-                FieldValue = resumeExperience
-            })
-            .Delete(transaction)
-            .Save(transaction);
-
-        }
-
-        public string GetShortTitle()
-        {
-            return ResumeTitle;
-        }
-
-        public string GetShortText()
-        {
-            if (ResumeExperienceList.Count == 0)
-                return null;
-
-            var resumeExperienceLast = ResumeExperienceList.Last();
-            return resumeExperienceLast.Description;
+            var indexResponse = Client.IndexDocument(this);
         }
     }
 }

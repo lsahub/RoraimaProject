@@ -12,25 +12,15 @@ namespace RoraimaProject.Controllers
     {
         [HttpGet]
         [EnableCors("CorsPolicy")]
-        public JsonResult Find([FromQuery(Name = "text")] string text)
+        public JsonResult Find(
+            [FromQuery(Name = "text")] string text,
+            [FromQuery(Name = "page")] int page
+        )
         {
-
-            var searchResultList = SearchIndexModel.Find(text);
+            var searchResult = SearchableModel.FindResume(text, page);
             var res = new List<object>();
-            foreach (var result in searchResultList)
-            {
-                if (result == null)
-                    continue;
-                var o = new
-                {
-                    title = result.GetShortTitle(),
-                    text = result.GetShortText()
-                };
-                res.Add(o);
-            }
-            
 
-            return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = res });
+            return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = searchResult });
         }
 
     }
