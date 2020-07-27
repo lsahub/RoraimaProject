@@ -1,0 +1,94 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.navbar-brand-logo
+{
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+}    
+
+.resume-experience
+{
+    margin-top: 50px;    
+    position: relative;
+    &-line
+    {
+        border-left: 1px dashed #cbd1d4;
+        height: 100%;
+        position: absolute;
+        left: 100%;
+        margin-left: 10px;
+        top: 0;
+        &-close
+        {
+            border-radius: 5px;
+            background-color: white;
+            margin-left: -5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    }
+    &-add
+    {
+        margin-bottom: 20px;        
+    }
+    &-date
+    {
+        display: flex;
+        &-month
+        {
+            max-width: 120px;            
+        }
+        &-year
+        {
+            max-width: 100px;            
+        }
+    }
+}
+
+.text-menu-link
+{
+    display: flex;
+    align-items: center;    
+    color: $gray-800 !important;
+}
+
+.text-menu-link:hover {
+    color: $blue !important;
+}
+
+.site-header
+{
+    .top-bar
+    {
+        position: relative;
+        z-index: 100;
+        background-color: white;    
+    }
+    .search-panel
+    {
+        display: flex;    
+        max-width: 600px;
+        margin: -40px 0px 10px 0px;
+        transition: 0.3s;
+        opacity: 0;
+        &.show
+        {
+            margin: 20px 0px 5px 0px;
+            opacity: 1;    
+        }
+    }   
+}
+
+ 
+
+@media only screen and (max-width: 600px) {
+    .media-order-2
+    {
+        order: 2;        
+    }
+    .media-order-1
+    {
+        order: 1;        
+    }
+  } 
