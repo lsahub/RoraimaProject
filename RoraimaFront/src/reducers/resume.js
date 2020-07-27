@@ -5,7 +5,7 @@
     },
     //сохраненное резюме
     savedResume : {
-        resume: {}
+        resume: null
     }
 };
 
@@ -38,7 +38,7 @@ export default (state = initialState, { type, payload }) => {
         case 'SAVE_RESUME_FAILURE':
             {
                 res = Object.assign({}, state);
-                res.savedResume.resume = {};
+                res.savedResume.resume = null;
                 res.ex = payload;
                 return res;
             }

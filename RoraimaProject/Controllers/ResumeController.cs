@@ -36,11 +36,12 @@ namespace RoraimaProject.Controllers
             }
             catch (Exception e)
             {
-                var saved = SaveToLog<ResumeModel>(resume, e, Logger);
+                SaveToLog<ResumeModel>(resume, e, Logger);
+                string err = ServiceResponce.GetDefaultError(e);
                 return new JsonResult(new ServiceResponce()
                 {
                     Code = "E11191861A26",
-                    Error = ServiceResponce.GetDefaultError(),
+                    Error = err,
                     Payload = null
                 });
             }

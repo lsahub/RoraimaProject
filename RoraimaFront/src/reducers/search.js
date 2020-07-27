@@ -14,6 +14,7 @@ export default (state = initialState, { type, payload }) => {
             {
                 res = Object.assign({}, state);
                 res.searchResult.list = payload.payload;
+                res.ex = null;
                 return res;
             }
         case 'FETCH_SEARCH_LIST_FAILURE':

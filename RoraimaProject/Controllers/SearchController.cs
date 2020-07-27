@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RoraimaLibrary.Models;
 using RoraimaProject.Responce;
+using System;
 using System.Collections.Generic;
 
 namespace RoraimaProject.Controllers
@@ -17,10 +18,21 @@ namespace RoraimaProject.Controllers
             [FromQuery(Name = "page")] int page
         )
         {
-            var searchResult = SearchableModel.FindResume(text, page);
-            var res = new List<object>();
-
-            return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = searchResult });
+            try
+            {
+                var searchResult = SearchableModel.FindResume(text, page);
+                var res = new List<object>();
+                return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = searchResult });
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(new ServiceResponce()
+                {
+                    Code = "4A48A9B75632",
+                    Error = ServiceResponce.GetDefaultError(e),
+                    Payload = null
+                });
+            } 
         }
 
     }

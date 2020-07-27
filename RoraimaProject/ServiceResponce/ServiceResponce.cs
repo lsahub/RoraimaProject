@@ -7,8 +7,18 @@ namespace RoraimaProject.Responce
 {
     public class ServiceResponce
     {
-        public static string GetDefaultError()
+        public static string GetDefaultError(Exception ex)
         {
+            try
+            {
+                var envMode = Environment.GetEnvironmentVariable("ENVMODE");
+                if (!string.IsNullOrEmpty(envMode) && envMode.ToLower() == "debug")
+                    return ex.Message;
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
             return "Something went wrong";
         }
         public string Error { get; set; }

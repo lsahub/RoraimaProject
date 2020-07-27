@@ -10,16 +10,23 @@ namespace RoraimaLibrary.Models
 {
     public abstract class SearchableModel
     {
-        private static Uri[] Uris = new[] { new Uri("http://localhost:9200") };
-        private static SniffingConnectionPool ConnectionPool;
         private static ConnectionSettings Settings;
         public static ElasticClient Client;
         private static int PageSize = 10;
-
+        private static Uri Uri
+        {
+            get
+            {
+                var envConnStr = Environment.GetEnvironmentVariable("ES_CONNECTION_STRING");
+                if (!string.IsNullOrEmpty(envConnStr))
+                    return new Uri(envConnStr);
+                return new Uri("http://localhost:9200");
+            }
+        }
+            
         static SearchableModel()
         {
-            ConnectionPool = new SniffingConnectionPool(Uris);
-            Settings = new ConnectionSettings(ConnectionPool)
+            Settings = new ConnectionSettings(Uri)
                 .DefaultIndex("resume");
 
             Client = new ElasticClient(Settings);
@@ -35,8 +42,6 @@ namespace RoraimaLibrary.Models
         {
             var start = (page - 1) * 10;
             var end = (page) * 10;
-
-            Client.Search<ResumeModel>(s => s.Query(q => q.QueryString(d => d.Query(query))));
 
             var searchResponse = Client.Search<ResumeModel>(x => x
                 .From(start)

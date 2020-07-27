@@ -10,7 +10,16 @@ namespace RoraimaLibrary
     {
         public static readonly HttpClient httpClient = new HttpClient();
 
-        public static string ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        public static string ConnectionString 
+        {
+            get
+            {
+                var envConnStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+                if (!string.IsNullOrEmpty(envConnStr))
+                    return envConnStr;
+                return "Server=localhost,6462;Database=RoraimaDB;User Id=SA;Password=StrongPassword@123;";
+            }
+        }
 
         public static SqlConnection CreateConnection()
         {

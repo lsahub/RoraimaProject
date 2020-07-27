@@ -107,6 +107,8 @@ namespace RoraimaLibrary.Models
         public override void SaveSearchIndex(SqlTransaction transaction)
         {
             var indexResponse = Client.IndexDocument(this);
+            if (indexResponse.Result == Nest.Result.Error)
+                throw new Exception(indexResponse.DebugInformation);
         }
     }
 }

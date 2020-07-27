@@ -22,7 +22,7 @@ services:
       roraima-network: 
 
   api:
-    image: docker4job/roraimaproject:latest
+    image: docker4job/roraimaproject:20200727101048
     container_name: roraima-api
     ports:
       - "6533:80"
@@ -34,6 +34,8 @@ services:
       roraima-network: 
     environment:
       - CONNECTION_STRING=Server=mssql_db;Database=RoraimaDB;User Id=SA;Password=StrongPassword@123;
+      - ES_CONNECTION_STRING=http://es01:9200
+      - ENVMODE=DEBUG
 
 
   mssql_db:
