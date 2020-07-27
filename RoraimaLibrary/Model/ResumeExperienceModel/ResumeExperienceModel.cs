@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -10,13 +11,21 @@ namespace RoraimaLibrary.Models
 {
     public class ResumeExperienceModel
     {
+        [Number]
         public int? ResumeExperienceId { get; set; }
+        [Number]
         public int ResumeId { get; set; }
+        [Date]
         public DateTime DateStart { get; set; }
+        [Date]
         public DateTime? DateEnd { get; set; }
+        [Boolean]
         public bool IsUntilNow { get; set; }
+        [Text]
         public string PlaceOfWork { get; set; }
+        [Text]
         public string Position { get; set; }
+        [Text]
         public string Description { get; set; }
 
         public void Load(DataRow row)

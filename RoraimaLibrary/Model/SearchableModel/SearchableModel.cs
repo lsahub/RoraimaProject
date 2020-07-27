@@ -62,6 +62,7 @@ namespace RoraimaLibrary.Models
             totalCount = searchResponse.Total;
             return searchResponse.Documents; 
         }
+         
 
     }
 }

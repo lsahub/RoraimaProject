@@ -1,3 +1,4 @@
+using Nest;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,33 +8,40 @@ using System.Linq;
 
 namespace RoraimaLibrary.Models
 {
+    [ElasticsearchType(RelationName = "resume")]
     public class ResumeModel: SearchableModel
     {
         /// <summary>
         /// Identity Increment primary key
         /// </summary>
+        [Number]
         public int? ResumeId { get; set; }
         /// <summary>
         /// Resume Visibility
         /// </summary>
+        [Number]
         public int ResumeVisibilityId { get; set; }
         /// <summary>
         /// Title resume, not null
         /// </summary>
+        [Text]
         public string ResumeTitle { get; set; }
         /// <summary>
         /// Last name, not null
         /// </summary>
+        [Text]
         public string LastName { get; set; }
         /// <summary>
         /// First name, not null
         /// </summary>
+        [Text]
         public string FirstName { get; set; }
         /// <summary>
         /// Middle name, nullable
         /// </summary>
+        [Text]
         public string MiddleName { get; set; }
-
+        [Object]
         public List<ResumeExperienceModel> ResumeExperienceList { get; set; } = new List<ResumeExperienceModel>();
 
         public void Load(DataRow row, DataRow[] rowsResumeExperience) 
