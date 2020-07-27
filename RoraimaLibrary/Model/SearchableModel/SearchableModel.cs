@@ -20,7 +20,10 @@ namespace RoraimaLibrary.Models
                 var envConnStr = Environment.GetEnvironmentVariable("ES_CONNECTION_STRING");
                 if (!string.IsNullOrEmpty(envConnStr))
                     return new Uri(envConnStr);
+#if DEBUG
                 return new Uri("http://localhost:9200");
+#endif
+                throw new ArgumentNullException("ES_CONNECTION_STRING");
             }
         }
             

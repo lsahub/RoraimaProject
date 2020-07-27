@@ -17,7 +17,10 @@ namespace RoraimaLibrary
                 var envConnStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
                 if (!string.IsNullOrEmpty(envConnStr))
                     return envConnStr;
+#if DEBUG
                 return "Server=localhost,6462;Database=RoraimaDB;User Id=SA;Password=StrongPassword@123;";
+#endif
+                throw new ArgumentNullException("CONNECTION_STRING");
             }
         }
 
