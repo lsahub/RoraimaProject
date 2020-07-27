@@ -6,7 +6,7 @@
 
 -RoraimaProject: бекэнд на .net api core 3.1. - пушится в docker hub как public репозитарий. см docker-compose.yml
 
--MS SQL
+-MS SQL: База должна подняться из файлов при запуске docker-compose + в папке data/backup есть последний бекап базы. 
 
 -RoraimaProjectTests: тесты котроллеров
 
@@ -25,3 +25,16 @@
 -сервис elastic search http://localhost:5601/
 
 -фронт http://localhost:3000/
+
+конект к базе из хостовой машины по адресу localhost,6462 
+
+Логин SA
+
+пароль StrongPassword@123
+
+
+Скриншоты: 
+
+https://yadi.sk/i/81q7Dy7mN29BJA
+
+https://yadi.sk/i/5qeBxFY3fy0GkA
