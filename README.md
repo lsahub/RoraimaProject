@@ -31,3 +31,10 @@
 Логин SA
 
 пароль StrongPassword@123
+
+
+Скриншоты: 
+
+https://yadi.sk/i/81q7Dy7mN29BJA
+
+https://yadi.sk/i/5qeBxFY3fy0GkA
