@@ -38,7 +38,7 @@ namespace RoraimaLibrary.Models
         /// </summary>
         public abstract void SaveSearchIndex(SqlTransaction transaction);
 
-        public static IReadOnlyCollection<ResumeModel> FindResume(string query, int page)
+        public static IReadOnlyCollection<ResumeModel> FindResume(string query, int page, out long totalCount)
         {
             var start = (page - 1) * 10;
             var end = (page) * 10;
@@ -58,8 +58,8 @@ namespace RoraimaLibrary.Models
             //foreach (var fieldValues in searchResponse.Fields)
             //{
             //    var resumeId = fieldValues.ValueOf<ResumeModel, int?>(p => p.ResumeId);
-            //}
-
+            //}            
+            totalCount = searchResponse.Total;
             return searchResponse.Documents; 
         }
 

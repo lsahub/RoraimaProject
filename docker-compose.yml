@@ -22,7 +22,7 @@ services:
       roraima-network: 
 
   api:
-    image: docker4job/roraimaproject:20200727101048
+    image: docker4job/roraimaproject:20200727105612
     container_name: roraima-api
     ports:
       - "6533:80"

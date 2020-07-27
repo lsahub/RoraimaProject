@@ -17,7 +17,7 @@ namespace RoraimaProjectTests
         [TestMethod]
         public void ResumeControllerPostTest()
         {
-            var res = SearchableModel.FindResume("MiddleName", 1);
+            var res = SearchableModel.FindResume("MiddleName", 1, out long totalCount);
             Assert.AreEqual(res.Count > 0, true);
         } 
     }

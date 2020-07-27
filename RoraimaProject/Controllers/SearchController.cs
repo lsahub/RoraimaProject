@@ -20,9 +20,15 @@ namespace RoraimaProject.Controllers
         {
             try
             {
-                var searchResult = SearchableModel.FindResume(text, page);
+                var searchResult = SearchableModel.FindResume(text, page, out long totalCount);
                 var res = new List<object>();
-                return new JsonResult(new ServiceResponce() { Code = "200", Error = null, Payload = searchResult });
+                return new JsonResult(new ServiceResponce() { Code = "200", Error = null, 
+                    Payload = new 
+                    {
+                        totalCount = totalCount,
+                        searchResult = searchResult
+                    }
+                });
             }
             catch (Exception e)
             {

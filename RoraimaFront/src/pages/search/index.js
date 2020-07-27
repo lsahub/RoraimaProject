@@ -11,6 +11,7 @@ const Fragment = React.Fragment;
 const Search = (props) => {
   let params = queryString.parse(props.location.search)
   const searchList = useSelector(state => state.search.searchResult.list);
+  const totalCount = useSelector(state => state.search.searchResult.totalCount);
 
   useEffect( () => {
     props.fetchSearchList({
@@ -21,20 +22,19 @@ const Search = (props) => {
   return (
     <Fragment>
       {
-        params.text.length > 0 &&
-        <div style={{ marginBottom: '20px'}}>Найдено {searchList.length} { declOfNum(searchList.length, ['вакансия', 'вакансии', 'вакансий'])} «{`${params.text}»`}</div>
+        totalCount > 0 &&
+        <div style={{ marginBottom: '20px'}}>Найдено {totalCount} { declOfNum(totalCount, ['вакансия', 'вакансии', 'вакансий'])} «{`${params.text}»`}</div>
       }      
       <div>
         {
-          searchList.map((item, index)=>(
+          searchList.map((resume, index)=>(
             <SearchItem 
-              title={item.title}
-              text={item.text}
+              resume={resume}
             />
           ))
         }
         {
-          searchList.length == 0 && params.text.length > 0 &&
+          totalCount == 0 && params.text.length > 0 &&
           <div style={{ padding: '20px 0px 20px 0px' }}>Ничего не найдено</div>
         }
       </div>
