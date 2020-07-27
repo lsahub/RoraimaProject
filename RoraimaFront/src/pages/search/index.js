@@ -19,7 +19,7 @@ const Search = (props) => {
     props.fetchSearchList({
       text: params.text
     });
-  }, [])
+  }, [activePage])
 
   return (
     <Fragment>
