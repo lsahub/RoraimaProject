@@ -25,7 +25,7 @@ const Search = (props) => {
     <Fragment>
       {
         totalCount > 0 && params.text &&
-        <div style={{ marginBottom: '20px'}}>Найдено {totalCount} { declOfNum(totalCount, ['вакансия', 'вакансии', 'вакансий'])} «{`${params.text}»`}</div>
+        <div style={{ marginBottom: '20px'}}>Найдено {totalCount} { declOfNum(totalCount, ['резюме', 'резюме', 'резюме'])} «{`${params.text}»`}</div>
       }      
       <div>
         {
