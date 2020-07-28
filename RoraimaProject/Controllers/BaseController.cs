@@ -11,7 +11,7 @@ namespace RoraimaProject.Controllers
 {
     public class BaseController : ControllerBase
     {
-        public bool SaveToLog<T>(T model, Exception e, ILogger<ResumeController> logger)
+        public bool SaveToLog<T, TController>(T model, Exception e, ILogger<TController> logger)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace RoraimaProject.Controllers
                 }
                 string jsonFields = JsonConvert.SerializeObject(fields);
 
-                jsonFields = LogHelper<ResumeController>.SaveToLog(e, jsonFields, "SaveResumeError", logger);
+                jsonFields = LogHelper<TController>.SaveToLog(e, jsonFields, "SaveResumeError", logger);
                 return true;
             }
             catch

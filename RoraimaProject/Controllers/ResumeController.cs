@@ -36,7 +36,7 @@ namespace RoraimaProject.Controllers
             }
             catch (Exception e)
             {
-                SaveToLog<ResumeModel>(resume, e, Logger);
+                SaveToLog<ResumeModel, ResumeController>(resume, e, Logger);
                 string err = ServiceResponce.GetDefaultError(e);
                 return new JsonResult(new ServiceResponce()
                 {
