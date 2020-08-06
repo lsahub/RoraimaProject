@@ -13,7 +13,7 @@
     position: relative;
     &-line
     {
-        border-left: 1px dashed #cbd1d4;
+        border-left: 1px dashed $light-gray;
         height: 100%;
         position: absolute;
         left: 100%;
@@ -22,7 +22,7 @@
         &-close
         {
             border-radius: 5px;
-            background-color: white;
+            background-color: $white;
             margin-left: -5px;
             margin-top: 10px;
             cursor: pointer;
@@ -63,7 +63,7 @@
     {
         position: relative;
         z-index: 100;
-        background-color: white;    
+        background-color: $white;    
     }
     .search-panel
     {
