@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 const Fragment = React.Fragment;
  
 const Resume = (props) => {
-  const [isSaveResume, setIsSaveResume] = useState(false);
   const [resumeTitle, setResumeTitle] = useState("");
 
   const [lastName, setLastName] = useState("");
@@ -103,15 +102,12 @@ const Resume = (props) => {
   //#endregion
 
   //#region save
-  useEffect(() => {   
+  const saveResume = () => {   
     let isValid = false; 
-    if(isSaveResume)
-    {
-      isValid = validate();
-      isValid = validateExperience(isValid);
-    }
+    isValid = validate();
+    isValid = validateExperience(isValid);
 
-    if(isSaveResume && isValid)
+    if(isValid)
     {      
       let resumeExperienceList = [];
       for (let index = 0; index < maxIndexResumeExperience; index++) {
@@ -148,10 +144,7 @@ const Resume = (props) => {
         props.history.push(`/resumeSent`);
       });
     }
-
-    setIsSaveResume(false);
-
-  }, [isSaveResume]);
+  };
   //#endregion 
 
   return (
@@ -277,7 +270,7 @@ const Resume = (props) => {
                         }}
                       >Добавить место работы</button>
                     </div>
-                  <button onClick={(event)=>{setIsSaveResume(true)}} type="button" className="btn btn-lg btn-outline-primary">Сохранить</button>
+                  <button onClick={(event)=>{saveResume()}} type="button" className="btn btn-lg btn-outline-primary">Сохранить</button>
               
                 </div>
                 <Advertising />
